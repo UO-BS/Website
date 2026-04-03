@@ -15,3 +15,4 @@ Potential Future Improvements:
     - Add an animation to the header
 - Add more information to the Contact tab
 - Remove hard-coded text and add translations (with a language dropdown selector)
+- Host on github pages (if possible)
