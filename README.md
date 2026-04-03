@@ -15,4 +15,7 @@ Potential Future Improvements:
     - Add an animation to the header
 - Add more information to the Contact tab
 - Remove hard-coded text and add translations (with a language dropdown selector)
-- Host on github pages (if possible)
+
+Build Note:
+To host on github pages, I use the angular-cli-ghpages package
+I have added a "Deploy" script to package.json for ease-of-use
