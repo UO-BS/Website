@@ -1,6 +1,6 @@
 # Website
-This is personal website to display my other projects.
-I currently call the Github API to grab my projects, so my private repos and external projects are not visible here.
+This is a personal website to display my other projects.
+I currently use the Github API to grab my projects, so private repos and external projects are not visible here.
 
 This project was mainly created to test and learn Angular.
 
