@@ -1,0 +1,25 @@
+
+:root {
+  --dark-color: #0B1642;
+  --dark-standout-color: #1B175A;
+  --standout-color: #3930b4;
+  --bright-color: #0471ff;
+  --light-color: #0451B9;
+  --muted-color: #094391;
+  --muted-gray: #b3b3b3;
+  --gray: #999999;
+
+  color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background-color: var(--dark-color); 
+}
+
+

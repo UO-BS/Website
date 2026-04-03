@@ -1,0 +1,30 @@
+.visibilityData {
+  text-align: center;
+}
+
+.dateData {
+  text-align: center;
+}
+
+.nameData {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: underline;
+}
+
+.descData {
+  font-size: 14px;
+}
+
+td {
+  padding: 8px;
+}
+
+:host {
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+:host:hover {
+  background-color: var(--muted-color);
+  outline: 1px solid var(--standout-color);
+}

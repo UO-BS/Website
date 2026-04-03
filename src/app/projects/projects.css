@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+th {
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+th:hover {
+  background-color: var(--muted-color);
+  outline: 1px solid var(--standout-color);
+}
+
+#tableproject {
+  width: 65%;
+}
+#tablevisibility {
+  width: 15%;
+}
+#tableupdated {
+  width: 20%;
+}

@@ -1,0 +1,8 @@
+# Dependencies
+/node_modules
+
+# Angular CLI cache
+/.angular/cache
+
+# IDE
+/.vscode
