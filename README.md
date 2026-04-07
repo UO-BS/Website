@@ -11,8 +11,10 @@ Potential Future Improvements:
     - Add "search projects by tag" bar
 - Hard-code private projects
 - UI Improvements
-    - Improve the flat-color background
-    - Add an animation to the header
+    - Add some sort of glass/shine effect on the content boxes
+- Add more Angular Animations (as a challenge) 
+    - If I make too many: Create a tab with toggles for each animation
+        - Add an alert notifying users that the animations are just to test angular features
 - Add more information to the Contact tab
 - Remove hard-coded text and add translations (with a language dropdown selector)
 
