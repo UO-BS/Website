@@ -7,16 +7,18 @@ Curently hosted at https://uo-bs.github.io/Website
 
 
 Potential Future Improvements:
-- Hard-code additional information regarding projects (tags, screenshots, etc...)
+- Add additional information regarding projects (tags, screenshots, etc...)
     - Add "search projects by tag" bar
-- Hard-code private projects
-- UI Improvements
-    - Add some sort of glass/shine effect on the content boxes
-- Add more Angular Animations (as a challenge) 
-    - If I make too many: Create a tab with toggles for each animation
-        - Add an alert notifying users that the animations are just to test angular features
+- Add private project data
 - Add more information to the Contact tab
+- Angular Animations repository:
+    - Have the animation preview become the actual animation when the user hovers/scrolls over the ribbon (enlarging the ribbon and adding emphasis)
+        - Could add sliders to allow the user to edit the animation parameters
+    - 3D rotating animation idea: A sphere of pins/points that change color when clicked on (can rotate the sphere with click-and-drag)
+        - Example: Can be used to select a country on a globe
+    - Remove hard-coding from the ribbons
 - Remove hard-coded text and add translations (with a language dropdown selector)
+    - Use a service to fetch a language JSON file; other components then call this service to get their text content
 
 Build Note:
 To host on github pages, I use the angular-cli-ghpages package
