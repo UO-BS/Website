@@ -3,7 +3,7 @@ This is a personal website to display my other projects.
 I currently use the Github API to grab my projects, so private repos and external projects are not visible here.
 
 This project was mainly created to test and learn Angular.
-Curently hosted at https://uo-bs.github.io/Website
+Curently hosted at https://uo-bs.github.io/Website.
 
 
 Potential Future Improvements:
@@ -21,5 +21,5 @@ Potential Future Improvements:
     - Use a service to fetch a language JSON file; other components then call this service to get their text content
 
 Build Note:
-To host on github pages, I use the angular-cli-ghpages package
-I have added a "Deploy" script to package.json for ease-of-use
+To host on github pages, I use the angular-cli-ghpages package.
+I have added a "Deploy" script to package.json for ease-of-use.
