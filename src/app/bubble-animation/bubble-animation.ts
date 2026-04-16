@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild, NgZone, Host, HostListener } from '@angular/core';
-import { Mousetracker } from '../mousetracker';
+import { Component} from '@angular/core';
+import { InteractiveAnimation } from '../interactive-animation';
 
 @Component({
   selector: 'app-bubble-animation',
@@ -10,105 +10,28 @@ import { Mousetracker } from '../mousetracker';
   styleUrls: ['./bubble-animation.css'],
 })
 
-export class BubbleAnimation {
-  @ViewChild('renderer') canvasRef!: ElementRef;
+export class BubbleAnimation extends InteractiveAnimation {
 
   private bubbles: Bubble[] = [];
-
-  private ctx!: CanvasRenderingContext2D;
-  private animationFrameId: number = 0;
-  private lastFrameTime: number = 0;
-
-  private mouseX: number = 0;
-  private mouseY: number = 0;
-
-  private resizeObserver!: ResizeObserver;
-  private cachedRect!: DOMRect;
-
   private bubbleCount: number = 30;
 
-  constructor(private mouseTracker: Mousetracker, private zone: NgZone) {}
-
-  ngAfterViewInit() {
-    // Get mouse position
-    this.mouseTracker.mousePos.subscribe(pos => {
-      this.mouseX = pos.x;
-      this.mouseY = pos.y;
-    });
-
-    // Get canvas context
-    const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
-    this.ctx = canvas.getContext('2d')!;
-
-    // Size the canvas
-    this.resize();
-    // Automatically resize canvas when DOM element size changes
-    this.resizeObserver = new ResizeObserver(() => {
-      this.zone.runOutsideAngular(() => this.resize());
-    });
-    this.resizeObserver.observe(canvas);
-
-    // Get the current time
-    this.lastFrameTime = performance.now();
-    // Start animation loop
-    this.zone.runOutsideAngular((time) => this.animate(time));
+  initAnimation() {
+    // No setup needed for this animation
   }
 
-  animate(currentFrameTime: number) {
-    // Calculate delta time for consistent movement speed; cap at 100ms to prevent large jumps
-    const deltaTime = Math.min(currentFrameTime - this.lastFrameTime, 100);
-    let safeDeltaTime = deltaTime;
-    if (isNaN(safeDeltaTime) || safeDeltaTime <= 0 || safeDeltaTime > 100) {
-      safeDeltaTime = 16; // Default to 60 FPS if delta time is invalid
-    }
-
-    this.lastFrameTime = currentFrameTime;
-    
-    const timescale = safeDeltaTime / 16; // Assuming 60 FPS, so 16ms per frame
-
-    // Add new bubbles
+  renderFrame(timescale: number) {
+    // Add new bubbles randomly up to the bubble count limit
     if (this.bubbles.length < this.bubbleCount && Math.random() < 0.05) {
       this.bubbles.push(new Bubble(this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height));
     }
 
-    // Clear canvas
-    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-    // Localized mouse position
-    const localizedMouseX = this.mouseX - this.cachedRect.left;
-    const localizedMouseY = this.mouseY - this.cachedRect.top;
-
+    // Make bubbles draw
     for (const bubble of this.bubbles) {
-      bubble.update(localizedMouseX, localizedMouseY, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height, timescale);
+      bubble.update(this.localMouseX, this.localMouseY, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height, timescale);
       bubble.draw(this.ctx);
     }
-
-    this.animationFrameId = requestAnimationFrame((time) => this.animate(time));
   }
 
-  // Get the current size and position of the canvas for accurate mouse interaction
-  @HostListener('window:scroll')
-  updateRect() {
-    this.cachedRect = this.canvasRef.nativeElement.getBoundingClientRect();
-  }
-
-  // Resize canvas to match container size
-  resize() {
-    // Get the size of the canvas container
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-
-    // Set the canvas size to match the container
-    this.canvasRef.nativeElement.width = rect.width;
-    this.canvasRef.nativeElement.height = rect.height;
-
-    // Update cached rect for mouse interaction
-    this.updateRect();
-  }
-
-  ngOnDestroy() {
-    this.resizeObserver.disconnect();
-    cancelAnimationFrame(this.animationFrameId);
-  }
 }
 
 class Bubble {
