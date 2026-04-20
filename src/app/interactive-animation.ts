@@ -10,6 +10,7 @@ export abstract class InteractiveAnimation {
     // Canvas management
     protected ctx!: CanvasRenderingContext2D;
     private resizeObserver!: ResizeObserver;
+    private clickListener!: (event: MouseEvent) => void;
     protected cachedRect!: DOMRect;
 
     // Animation frame management
@@ -44,6 +45,16 @@ export abstract class InteractiveAnimation {
         });
         this.resizeObserver.observe(canvas);
 
+        // Add an onclick listener
+        this.clickListener = (event: MouseEvent) => {
+            this.zone.runOutsideAngular(() => {
+            const localX = event.clientX - this.cachedRect.left;
+            const localY = event.clientY - this.cachedRect.top;
+            this.onClick(localX, localY);
+        })};
+        canvas.addEventListener('click', this.clickListener);
+
+        // Run the animation initialization hook
         this.initAnimation();
 
         // Get the current time
@@ -52,7 +63,8 @@ export abstract class InteractiveAnimation {
         this.zone.runOutsideAngular((time) => this.animate(time));
     }
 
-    // Main animation loop - TO BE FIXED
+    // Main animation loop
+    // TBD: Allow framerate to be set by the animation isntead of assuming 60fps
     animate(currentFrameTime: number) {
         // Calculate delta time for consistent movement speed; cap at 100ms to prevent large jumps
         const deltaTime = Math.min(currentFrameTime - this.lastFrameTime, 100);
@@ -79,7 +91,13 @@ export abstract class InteractiveAnimation {
     // Draw to the canvas and handle any frame-specific logic (called every frame)
     abstract renderFrame(timescale: number): void;
 
-    // Update the current size and position of the canvas for accurate mouse tracking
+    // Optional Hook for subclasses to update based on canvas size changes
+    protected onResize() {}
+
+    // Optional Hook for subclasses to handle click events on the canvas
+    protected onClick(localX: number, localY: number) {}
+
+    // Update a local variable with the current size and position of the canvas for accurate mouse tracking
     @HostListener('window:scroll')
     updateRect() {
         this.cachedRect = this.canvasRef.nativeElement.getBoundingClientRect();
@@ -96,11 +114,15 @@ export abstract class InteractiveAnimation {
 
         // Update cached rect for mouse interaction
         this.updateRect();
+
+        // Call the optional resize hook
+        this.onResize();
     }
 
     // Deconstruct the animation
     ngOnDestroy() {
         this.resizeObserver.disconnect();
+        this.canvasRef.nativeElement.removeEventListener('click', this.clickListener);
         this.mouseTrackerSubscription?.unsubscribe();
         cancelAnimationFrame(this.animationFrameId);        
     }

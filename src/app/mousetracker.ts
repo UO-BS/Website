@@ -7,6 +7,8 @@ import { fromEvent, Observable, shareReplay, map } from 'rxjs';
 export class Mousetracker {
   public mousePos: Observable<{x: number, y: number}>;
 
+  //Note: I handle onclick events in specific components instead of this service since components are overlaid on top of each other.
+
   constructor(private zone: NgZone) {
     this.mousePos = this.zone.runOutsideAngular(() => 
       fromEvent<MouseEvent>(document, 'mousemove').pipe(
