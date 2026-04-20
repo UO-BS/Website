@@ -3,7 +3,8 @@ This is a personal website to display my other projects.
 I currently use the Github API to grab my projects, so private repos and external projects are not visible here.
 
 This project was mainly created to test and learn Angular.
-Curently hosted at https://uo-bs.github.io/Website.
+Currently hosted at:
+>**https://uo-bs.github.io/Website**.
 
 
 Potential Future Improvements:
