@@ -50,7 +50,7 @@ import { GlobeAnimation } from '../globe-animation/globe-animation';
 
         <div class="banner-text">
           <h1>Rotating Sphere Animation</h1>
-          <p>- A sphere of clickable points continuously rotate</p>
+          <p>- A rotating sphere of clickable points</p>
           <p>- Can be used to interact with a 3D object </p>
           <p>  * A globe with selectable countries...  </p>
           <p>  * A brain with selectable sections...  </p>
