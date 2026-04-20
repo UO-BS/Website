@@ -13,11 +13,12 @@ import { InteractiveAnimation } from '../interactive-animation';
 export class GlobeAnimation extends InteractiveAnimation {
  
   private drawSphere?: Sphere;
+  pointCount: number = 100;
 
   initAnimation() {
     const canvas = this.canvasRef.nativeElement as HTMLCanvasElement;
     const boundingDimension = Math.min(canvas.width, canvas.height);
-    this.drawSphere = new Sphere(canvas.width / 2, canvas.height / 2, 0, boundingDimension / 2, 100);
+    this.drawSphere = new Sphere(canvas.width / 2, canvas.height / 2, 0, boundingDimension / 2, this.pointCount);
   }
 
   renderFrame(timescale: number) {

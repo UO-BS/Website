@@ -12,14 +12,13 @@ Potential Future Improvements:
     - Add "search projects by tag" bar
 - Add private project data
 - Add more information to the Contact tab
+    - Add an alert saying that resume is available upon request (to avoid web scraping)
 - Angular Animations repository:
-    - Have the animation preview become the actual animation when the user hovers/scrolls over the ribbon (enlarging the ribbon and adding emphasis)
-        - Could add sliders to allow the user to edit the animation parameters
-    - 3D rotating animation idea: A sphere of pins/points that change color when clicked on (can rotate the sphere with click-and-drag)
-        - Example: Can be used to select a country on a globe
-    - Remove hard-coding from the ribbons
+    - Add sliders to allow the user to edit the animation parameters
+    - Make the animation ribbons a component... Currently there is code repetition
 - Remove hard-coded text and add translations (with a language dropdown selector)
     - Use a service to fetch a language JSON file; other components then call this service to get their text content
+- Create a .ico to resolve the favicon.ico issue
 
 Build Note:
 To host on github pages, I use the angular-cli-ghpages package.
