@@ -1,0 +1,51 @@
+{
+    "nameplate": {
+        "jobTitle": "Software Engineer",
+        "siteUpdateText": "Last Website Update: ",
+
+        "alertTitle": "",
+        "alertText": ""
+    },
+
+    "contact": {
+        "emailWord": "Email: ",
+
+        "alertTitle": "",
+        "alertText": ""
+    },
+
+    "navbar": {
+        "projectsTabText": "Public Projects",
+        "contactTabText": "Contact Details",
+        "animationsTabText": "Animations"
+    },
+
+    "projects": {
+        "projectHeader": "Project",
+        "visibilityHeader": "Visibility",
+        "lastUpdatedHeader": "Last Updated",
+
+        "alertTitle": "2026-04-02 Notice: Private Repositories not listed",
+        "alertText": "The repositories listed in this section were fetched using the Github API; which does not list private repositories. \n You will need to contact me if you wish to view the following repositories: PythonAIStockTrader, CapitalC++Game"
+    },
+
+    "animations": {
+        "alertTitle": "Angular Animation Repository",
+        "alertText": "This page displays the various interactive animations that I have created. \n I plan to create many interactive html elements for a variety of use cases; some of which may be unused in this portfolio website.\n Such unused animations will be kept on this page for demonstration purposes",
+
+        "animationData": [
+            {
+                "animationId": 0, 
+                "name": "Rising Bubble Animation", 
+                "desc": "- Randomly generated bubbles rise to the surface and can be pushed around by the user's cursor \n - Can be used to fill space ", 
+                "previewURL": "public/BubbleAnimationPreview.png"
+            },
+            {
+                "animationId": 1, 
+                "name": "Rotating Sphere Animation", 
+                "desc": "- A rotating sphere of clickable points \n - Can be used to interact with a 3D object \n * A globe with selectable countries... \n  * A brain with selectable sections...", 
+                "previewURL": "public/GlobeAnimationPreview.png"
+            }
+        ]
+    }
+}
