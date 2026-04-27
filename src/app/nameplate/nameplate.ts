@@ -1,13 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { GithubService } from '../github';
 import { Observable } from 'rxjs';
 import { BubbleAnimation } from '../bubble-animation/bubble-animation';
+import { TextService } from '../text-service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Alert } from '../alert/alert';
 
 @Component({
   selector: 'app-nameplate',
-  imports: [AsyncPipe, DatePipe, BubbleAnimation],
+  imports: [DatePipe, BubbleAnimation, Alert],
   template: `
+    <app-alert alertTitle={{text()?.alertTitle}}
+                alertText={{text()?.alertText}} />
 
     <div id="nameplate-container">
       <div> 
@@ -16,13 +21,13 @@ import { BubbleAnimation } from '../bubble-animation/bubble-animation';
         </header>
 
         <header id="jobtitle">
-          Software Engineer
+          {{text()?.jobTitle}}
         </header>
 
         <header id="update">
-          Last Website Update: 
-          <span id="update-date" [class.hidden]="!(lastUpdated | async)"> 
-            {{lastUpdated | async | date:'yyyy-MM-dd'}}
+          {{text()?.siteUpdateText}}
+          <span id="update-date" [class.hidden]="!lastUpdated()"> 
+            {{lastUpdated() | date:'yyyy-MM-dd'}}
           </span>
         </header>
       </div>
@@ -38,10 +43,16 @@ import { BubbleAnimation } from '../bubble-animation/bubble-animation';
 
 export class Nameplate {
   private githubService = inject(GithubService);
+  private textService = inject(TextService);
 
-  lastUpdated!: Observable<Date | null>;
+  text = toSignal(this.textService.getPageContent('nameplate') as Observable<NameplateText>, {initialValue: null});
+  lastUpdated = toSignal(this.githubService.getWebsiteDate(), {initialValue: null});
+}
 
-  ngOnInit() {
-    this.lastUpdated = this.githubService.getWebsiteDate();
-  }
+interface NameplateText {
+  jobTitle: string;
+  siteUpdateText: string;
+
+  alertTitle: string;
+  alertText: string;
 }

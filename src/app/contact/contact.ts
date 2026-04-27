@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TextService } from '../text-service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { Alert } from '../alert/alert';
 
 @Component({
   selector: 'app-contact',
-  imports: [],
+  imports: [Alert],
   template: `
+    <app-alert alertTitle={{text()?.alertTitle}}
+                alertText={{text()?.alertText}} />
+
     <table>
       <tr>
         <td>
           <p class="largetext">
-            Email: 
+            {{text()?.emailWord}}
           </p>
         </td>
         <td>
@@ -36,6 +43,16 @@ import { Component } from '@angular/core';
   `,
   styleUrls: ['./contact.css'],
 })
-export class Contact {
 
+export class Contact {
+  private textService = inject(TextService);
+
+  text = toSignal(this.textService.getPageContent('contact') as Observable<ContactText>, {initialValue: null});
+}
+
+interface ContactText {
+  emailWord: string;
+  
+  alertTitle: string;
+  alertText: string;
 }

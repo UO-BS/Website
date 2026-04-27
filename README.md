@@ -10,15 +10,14 @@ Currently hosted at:
 Potential Future Improvements:
 - Add additional information regarding projects (tags, screenshots, etc...)
     - Add "search projects by tag" bar
-- Add private project data
+- Add private repository data (for personal projects. My academic and professional projects may have copyright)
 - Add more information to the Contact tab
     - Add an alert saying that resume is available upon request (to avoid web scraping)
 - Angular Animations repository:
     - Add sliders to allow the user to edit the animation parameters
-    - Make the animation ribbons a component... Currently there is code repetition
-- Remove hard-coded text and add translations (with a language dropdown selector)
-    - Use a service to fetch a language JSON file; other components then call this service to get their text content
+- Add translations (with a language dropdown selector)
 - Create a .ico to resolve the favicon.ico issue
+- Make the Github service translatable to different languages
 
 Build Note:
 To host on github pages, I use the angular-cli-ghpages package.

@@ -5,21 +5,22 @@ import { RepoData } from '../repo-data';
 import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Alert } from '../alert/alert';
+import { TextService } from '../text-service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-projects',
   imports: [Repolistitem, AsyncPipe, Alert],
   template: `
-    <app-alert alertTitle="2026-04-02 Notice: Private Repositories not listed" 
-                alertText="The repositories listed in this section were fetched using the Github API; which does not list private repositories.
-                             You will need to contact me if you wish to view the following repositories: PythonAIStockTrader, CapitalC++Game" />
+    <app-alert alertTitle={{text()?.alertTitle}}
+                alertText={{text()?.alertText}} />
 
     <table>
       <thead>
         @let currentSort = (sortRule | async);
         <tr>
           <th (click)="changeSortRules('name')" id="tableproject" >
-            Project
+            {{text()?.projectHeader}}
             @if (currentSort?.key === 'name') {
               <span>{{ currentSort?.asc ? '▲' : '▼' }}</span>
             } @else {
@@ -27,7 +28,7 @@ import { Alert } from '../alert/alert';
             }
           </th>
           <th (click)="changeSortRules('visibility')" id="tablevisibility">
-            Visibility
+            {{text()?.visibilityHeader}}
             @if (currentSort?.key === 'visibility') {
               <span>{{ currentSort?.asc ? '▲' : '▼' }}</span>
             } @else {
@@ -35,7 +36,7 @@ import { Alert } from '../alert/alert';
             }
           </th>
           <th (click)="changeSortRules('lastUpdated')" id="tableupdated">
-            Last Updated
+            {{text()?.lastUpdatedHeader}}
             @if (currentSort?.key === 'lastUpdated') {
               <span>{{ currentSort?.asc ? '▲' : '▼' }}</span>
             } @else {
@@ -62,6 +63,10 @@ export class Projects {
   private githubService = inject(GithubService);
   // Raw repo data
   private repoDataList!: Observable<RepoData[]>; 
+
+  // Text service access
+  private textService = inject(TextService);
+  text = toSignal(this.textService.getPageContent('projects') as Observable<ProjectsText>, {initialValue: null});
 
   // Sorting rules
   sortRule = new BehaviorSubject<{key: keyof RepoData, asc: boolean}>({
@@ -112,4 +117,13 @@ export class Projects {
   openRepo(url: string) {
     window.open(url, '_blank')
   }
+}
+
+interface ProjectsText {
+  projectHeader: string;
+  visibilityHeader: string;
+  lastUpdatedHeader: string;
+
+  alertTitle: string;
+  alertText: string;
 }

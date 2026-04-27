@@ -4,14 +4,16 @@ import { Component, input } from '@angular/core';
   selector: 'app-alert',
   imports: [],
   template: `
-    <div class="alertBody">
-      <header class="alertTitle"> {{ alertTitle() }} </header>
-      <p class="alertText"> {{ alertText() }} </p>
-    </div>
+    @if (alertTitle() || alertText()) {
+      <div class="alertBody">
+        <header class="alertTitle"> {{ alertTitle() }} </header>
+        <p class="alertText"> {{ alertText() }} </p>
+      </div>
+  }
   `,
   styleUrls: ['./alert.css'],
 })
 export class Alert {
-  alertTitle = input.required<string>();
-  alertText = input.required<string>();
+  alertTitle = input<string>("");
+  alertText = input<string>("");
 }

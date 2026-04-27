@@ -1,73 +1,73 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BubbleAnimation } from '../bubble-animation/bubble-animation';
 import { GlobeAnimation } from '../globe-animation/globe-animation';
+import { Observable } from 'rxjs';
+import { TextService } from '../text-service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Alert } from '../alert/alert';
 
 @Component({
   selector: 'app-animation-page',
-  imports: [BubbleAnimation, GlobeAnimation],
+  imports: [BubbleAnimation, GlobeAnimation, Alert],
   template: `
     <div class="animation-page">
 
-      <div class="disclaimer">
-        <h2>Angular Animation Repository</h2>
-        <p>
-          This page displays the various interactive animations that I have created. 
-          <br> I plan to create many interactive html elements for a variety of use cases; some of which may be unused in this portfolio website.
-          <br> Such unused animations will be kept on this page for demonstration purposes.
-        </p>
-      </div>
+      <app-alert alertTitle={{text()?.alertTitle}}
+                alertText={{text()?.alertText}} />
 
-      <div class="banner">
+      @for (animation of text()?.animationData; track animation.animationId) {
+        <div class="banner">
 
-        <div class="banner-content">
-          @if (activeAnimation !== 'bubble') {
-            <img src="public/BubbleAnimationPreview.png" alt="Bubble Animation Preview" class="preview-image">
-          } @else {
-            <app-bubble-animation/>
-          }
+          <div class="banner-content">
+            @if (activeAnimation !== animation.animationId) {
+              <img src="{{animation.previewURL}}" alt="{{animation.name}} Preview" class="preview-image">
+            } @else {
+              @switch (animation.animationId) {
+                @case (0) {
+                  <app-bubble-animation/>
+                } @case (1) {
+                  <app-globe-animation/>
+                }
+              }
+            }
+          </div>
+
+          <div class="banner-text">
+            <h1>{{animation.name}}</h1>
+            <p>{{animation.desc}}</p>
+
+            <button (click)="activateAnimation(animation.animationId)" class="activate-button"> Run Animation </button>
+          </div>
+
         </div>
+      }
 
-        <div class="banner-text">
-          <h1>Rising Bubble Animation</h1>
-          <p>- Randomly generated bubbles rise to the surface and can be pushed around by the user's cursor </p>
-          <p>- Can be used to fill space </p>
-
-          <button (click)="activateAnimation('bubble')" class="activate-button"> Run Animation </button>
-        </div>
-
-      </div>
-
-
-      <div class="banner">
-
-        <div class="banner-content">
-          @if (activeAnimation !== 'globe') {
-            <img src="public/GlobeAnimationPreview.png" alt="Globe Animation Preview" class="preview-image">
-          } @else {
-            <app-globe-animation/>
-          }
-        </div>
-
-        <div class="banner-text">
-          <h1>Rotating Sphere Animation</h1>
-          <p>- A rotating sphere of clickable points</p>
-          <p>- Can be used to interact with a 3D object </p>
-          <p>  * A globe with selectable countries...  </p>
-          <p>  * A brain with selectable sections...  </p>
-
-          <button (click)="activateAnimation('globe')" class="activate-button"> Run Animation </button>
-        </div>
-
-      </div>
     </div>
   `,
   styleUrls: ['./animation-page.css'],
 })
+
 export class AnimationPage {
+  private textService = inject(TextService);
+  text = toSignal(this.textService.getPageContent('animations') as Observable<AnimationPageText>, {initialValue: null});
 
-  activeAnimation: string | null = null;
+  activeAnimation: number | null = null;
 
-  activateAnimation(name: string) {
-    this.activeAnimation = name;
+  activateAnimation(animationId: number) {
+    this.activeAnimation = animationId;
   }
+}
+
+interface AnimationData {
+  animationId: number;
+  name: string;
+  desc: string;
+  previewURL: string;
+}
+
+interface AnimationPageText {
+  alertTitle: string;
+  alertText: string;
+
+  animationData: AnimationData[];
 }

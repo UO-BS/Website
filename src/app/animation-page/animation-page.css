@@ -19,11 +19,6 @@
   max-height: 100%;
 }
 
-.disclaimer {
-  padding: 10px;
-  padding-bottom: 20px;
-}
-
 .banner-text {
   display: flex;
   flex-direction: column;
